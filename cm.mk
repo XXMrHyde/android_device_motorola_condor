@@ -3,6 +3,8 @@ $(call inherit-product, device/motorola/condor/full_condor.mk)
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 
+# Inherit some DCK stuff.
+$(call inherit-product, vendor/dk/config/common.mk)
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_NAME := cm_condor
