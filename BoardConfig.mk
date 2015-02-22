@@ -97,8 +97,17 @@ WPA_SUPPLICANT_VERSION := VER_0_8_X
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
-AUDIO_FEATURE_DEEP_BUFFER_PRIMARY := true
-AUDIO_FEATURE_DYNAMIC_VOLUME_MIXER := true
+AUDIO_FEATURE_ENABLED_FM := true
+AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS := true
+
+# FM
+TARGET_QCOM_NO_FM_FIRMWARE := true
+
+# Fonts
+EXTENDED_FONT_FOOTPRINT := true
+
+# Qualcomm support
+BOARD_USES_QCOM_HARDWARE := true
 
 # Encryption
 TARGET_HW_DISK_ENCRYPTION := true
@@ -171,9 +180,6 @@ BOARD_SEPOLICY_UNION += \
     rmt_storage.te \
     system_app.te \
     thermal-engine.te
-
-# Include an expanded selection of fonts
-EXTENDED_FONT_FOOTPRINT := true
 
 MALLOC_IMPL := dlmalloc
 
