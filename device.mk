@@ -52,7 +52,8 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/system/etc/media_codecs.xml:system/etc/media_codecs.xml \
-    $(LOCAL_PATH)/prebuilt/system/etc/media_profiles.xml:system/etc/media_profiles.xml
+    $(LOCAL_PATH)/prebuilt/system/etc/media_profiles.xml:system/etc/media_profiles.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_ffmpeg.xml:system/etc/media_codecs_ffmpeg.xml
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/sec_config:system/etc/sec_config \
@@ -99,7 +100,6 @@ TARGET_SCREEN_WIDTH := 540
 
 PRODUCT_PACKAGES += \
     gralloc.msm8610 \
-    libgenlock \
     copybit.msm8610 \
     hwcomposer.msm8610 \
     memtrack.msm8610 \
@@ -120,9 +120,12 @@ PRODUCT_PACKAGES += \
     audio.r_submix.default \
     libaudio-resampler \
     tinymix \
-    libqcompostprocbundle \
     libqcomvisualizer \
     libqcomvoiceprocessing
+
+# Filesystem
+PRODUCT_PACKAGES += \
+    setup_fs
 
 # Qcom SoftAP & wifi
 PRODUCT_PACKAGES += \
@@ -132,23 +135,22 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     charge_only_mode
 
-# Omx
+# Misc
 PRODUCT_PACKAGES += \
-    libc2dcolorconvert \
-    libstagefrighthw \
+    libxml2
+
+# OMX
+PRODUCT_PACKAGES += \
+    libdashplayer \
     libOmxCore \
     libOmxVdec \
     libOmxVdecHevc \
     libOmxVenc \
+    libstagefrighthw \
     qcmediaplayer
 
-PRODUCT_PACKAGES += \
-    libOmxAacEnc \
-    libOmxAmrEnc \
-    libOmxEvrcEnc \
-    libOmxQcelp13Enc
-
-PRODUCT_BOOT_JARS += qcmediaplayer
+PRODUCT_BOOT_JARS += \
+    qcmediaplayer
 
 PRODUCT_PACKAGES += \
     wlan_module_symlink \
@@ -202,12 +204,12 @@ PRODUCT_PACKAGES += \
 # Wifi
 PRODUCT_PACKAGES += \
     hostapd.accept \
-	hostapd_default.conf \
+    hostapd_default.conf \
     hostapd.deny \
     hostapd \
     wpa_supplicant \
     wpa_supplicant.conf \
-	dhcpcd.conf
+    dhcpcd.conf
 
 PRODUCT_PACKAGES += \
     WCNSS_qcom_wlan_factory_nv.bin
