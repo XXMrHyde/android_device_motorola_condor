@@ -51,9 +51,9 @@ on init
     mkdir /mnt/shell/emulated 0700 shell shell
     mkdir /storage/emulated 0555 root root
     mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
-    mkdir /storage/sdcard1 0700 root root
-    mkdir /mnt/media_rw/usbdisk 0700 media_rw media_rw
-    mkdir /storage/usbdisk 0700 root root
+    mkdir /storage/sdcard1 0775 system system
+    mkdir /mnt/media_rw/usbdisk 0775 media_rw media_rw
+    mkdir /storage/usbdisk 0700 system system
 
     export EXTERNAL_STORAGE /storage/emulated/legacy
     export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
@@ -254,6 +254,16 @@ on post-fs-data
     chown mot_pwric mot_pwric /sys/module/qpnp_charger/parameters/chrg_timestamp
 
     start batt_health
+    
+    # CPU
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 300000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 300000
+    write /sys/module/msm_thermal/core_control/enabled 1
+    chown system system /sys/devices/system/cpu/cpu1/online
+    chmod 664 /sys/devices/system/cpu/cpu1/online
+    write /dev/cpuctl/apps/cpu.notify_on_migrate 1
 
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
@@ -449,6 +459,7 @@ on boot
     # Change ownership and permission for vibrator
     chown system system /sys/class/timed_output/vibrator/enable
     chmod 0660 /sys/class/timed_output/vibrator/enable
+    chown system system /sys/devices/virtual/timed_output/vibrator/vtg_level
 
     # display color calibration
     chown system system /sys/devices/platform/kcal_ctrl.0/kcal
@@ -472,6 +483,11 @@ on boot
     setprop ro.hw.device ${ro.boot.device}
     setprop ro.hw.hwrev ${ro.boot.hwrev}
     setprop ro.hw.radio ${ro.boot.radio}
+
+    # Allow radio to access power state
+    chown system system /sys/power/state
+    chown radio system /sys/class/power_supply/usb/online
+    chmod 0755 /sys/class/power_supply/usb/online
 
 
 # Services start here
